@@ -88,15 +88,15 @@ object LarkRobotSendHelper {
         return ""
     }
 
-    private  fun requestToken(): Response {
+    private fun requestToken(): Response {
         return OkHttpClient().newCall(Request.Builder().apply {
-                this.url(AccessTokenUrl)
-                this.addHeader("Content-Type", "application/json; charset=utf-8")
-                this.post(JSONObject().apply {
-                    put("app_id", AppId)
-                    put("app_secret", AppSecret)
-                }.toString().toRequestBody(null))
-            }.build()).execute()
+            this.url(AccessTokenUrl)
+            this.addHeader("Content-Type", "application/json; charset=utf-8")
+            this.post(JSONObject().apply {
+                put("app_id", AppId)
+                put("app_secret", AppSecret)
+            }.toString().toRequestBody(null))
+        }.build()).execute()
     }
 
     private fun imageToBytes(imagePath: String): ByteArray? {
@@ -118,13 +118,13 @@ object LarkRobotSendHelper {
      */
     private fun uploadImage(imageBytes: ByteArray?, authorization: String): Response {
         return OkHttpClient().newCall(Request.Builder().apply {
-                this.url(ImageUploadUrl)
-                this.addHeader("Authorization", "Bearer $authorization")
-                this.addHeader("Content-Type", "multipart/form-data; boundary=$Boundary")
-                val data = buildBodyArray()
-                val endData = ("\r\n--$Boundary--\r\n").toByteArray()
-                this.post((data + imageBytes!! + endData).toRequestBody())
-            }.build()).execute()
+            this.url(ImageUploadUrl)
+            this.addHeader("Authorization", "Bearer $authorization")
+            this.addHeader("Content-Type", "multipart/form-data; boundary=$Boundary")
+            val data = buildBodyArray()
+            val endData = ("\r\n--$Boundary--\r\n").toByteArray()
+            this.post((data + imageBytes!! + endData).toRequestBody())
+        }.build()).execute()
 
     }
 
@@ -144,21 +144,21 @@ object LarkRobotSendHelper {
 
 
     private fun buildRequest(jsonBody: String) {
-            Thread(Runnable {
-                OkHttpClient().newCall(Request.Builder().apply {
-                    this.url(MessageCommonUrl)
-                    this.addHeader("Content-Type", "application/json")
-                    this.post(jsonBody.toRequestBody(null))
-                }.build()).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        System.out.println("$TAG onFailure:${e.message}")
-                    }
+        Thread(Runnable {
+            OkHttpClient().newCall(Request.Builder().apply {
+                this.url(MessageCommonUrl)
+                this.addHeader("Content-Type", "application/json")
+                this.post(jsonBody.toRequestBody(null))
+            }.build()).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    System.out.println("$TAG onFailure:${e.message}")
+                }
 
-                    override fun onResponse(call: Call, response: Response) {
-                        System.out.println("$TAG onResponse code:${response.code}")
-                    }
-                })
-            }).start()
+                override fun onResponse(call: Call, response: Response) {
+                    System.out.println("$TAG onResponse code:${response.code}")
+                }
+            })
+        }).start()
     }
 
 }

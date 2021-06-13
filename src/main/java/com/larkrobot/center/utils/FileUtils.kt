@@ -38,4 +38,12 @@ object FileUtils {
         }
         return false
     }
+
+    @JvmStatic
+    fun getFileType(file: File?): String {
+        if (file?.exists() == true) {
+            return file.name.substring(file.name.lastIndexOf(".") + 1).toLowerCase()
+        }
+        return ""
+    }
 }

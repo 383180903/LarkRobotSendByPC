@@ -1,19 +1,21 @@
 package com.larkrobot.center.helper
 
+import com.larkrobot.center.IDoTask
 import java.util.*
+import kotlin.collections.HashMap
+import kotlin.collections.HashSet
 
 
 object TimerSendHelper {
     private const val PERIOD_DAY = 24 * 60 * 60 * 1000.toLong()
-    private var timer: Timer? = null
+    private var timerMap: HashMap<String, Timer> = HashMap()
 
     @JvmStatic
-    fun startTimer() {
-
+    fun startTimer(hours: Int, minute: Int, second: Int, task: IDoTask) {
         val calendar = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 1)
-            set(Calendar.MINUTE, 54)
-            set(Calendar.SECOND, 0)
+            set(Calendar.HOUR_OF_DAY, hours)
+            set(Calendar.MINUTE, minute)
+            set(Calendar.SECOND, second)
         }
 
         var date = calendar.time
@@ -22,19 +24,21 @@ object TimerSendHelper {
         if (date.before(Date())) {
             date = this.addDay(date, 1);
         }
-
-        timer = Timer()
-        timer?.schedule(object : TimerTask() {
+        val key = "$hours-$minute-$second"
+        timerMap[key] = Timer()
+        timerMap[key]?.schedule(object : TimerTask() {
             override fun run() {
-                println("定时器开启啦 - ${date.time}")
+                task.doTask(1)
             }
         }, date, PERIOD_DAY)
     }
 
     @JvmStatic
     fun endTimer() {
-        timer?.cancel()
-        timer = null
+        timerMap.forEach {
+            it.value.cancel()
+        }
+        timerMap.clear()
     }
 
     private fun addDay(date: Date?, num: Int): Date? {
