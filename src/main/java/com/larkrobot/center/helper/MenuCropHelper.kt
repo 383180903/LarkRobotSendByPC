@@ -38,13 +38,13 @@ object MenuCropHelper {
     private fun buildMenuText(dayTime: Int): String? {
         return when (dayTime) {
             DayTime.Morning.value -> {
-                "米娜桑，早餐菜单来啦~"
+                "米娜桑，清晨的第一缕阳光就是龙司的早餐啦~"
             }
             DayTime.Noon.value -> {
-                "米娜桑，午餐菜单来啦~"
+                "米娜桑，快12点了，别写代码了，开饭啦~"
             }
             DayTime.Dinner.value -> {
-                "米娜桑，晚餐菜单来啦~"
+                "米娜桑，6点几啦，食饭先啦~"
             }
             else -> {
                 null

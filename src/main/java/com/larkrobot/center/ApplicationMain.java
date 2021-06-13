@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class ApplicationMain {
 
-    private static int windowWidth =  400;
-    private static int windowHeight =  200;
+    private static int windowWidth =  500;
+    private static int windowHeight =  150;
 
     public static void main(String[] args){
         JFrame container = new JFrame("飞书机器人控制中心");

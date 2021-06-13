@@ -3,10 +3,9 @@ package com.larkrobot.center.helper
 import com.larkrobot.center.IDoTask
 import java.util.*
 import kotlin.collections.HashMap
-import kotlin.collections.HashSet
-
 
 object TimerSendHelper {
+
     private const val PERIOD_DAY = 24 * 60 * 60 * 1000.toLong()
     private var timerMap: HashMap<String, Timer> = HashMap()
 
@@ -24,7 +23,7 @@ object TimerSendHelper {
         if (date.before(Date())) {
             date = this.addDay(date, 1);
         }
-        val key = "$hours-$minute-$second"
+        val key = buildTimerKey(hours, minute, second)
         timerMap[key] = Timer()
         timerMap[key]?.schedule(object : TimerTask() {
             override fun run() {
@@ -34,11 +33,15 @@ object TimerSendHelper {
     }
 
     @JvmStatic
-    fun endTimer() {
-        timerMap.forEach {
-            it.value.cancel()
+    fun endTimer(timerKey: String) {
+        if (timerMap.containsKey(timerKey)) {
+            timerMap[timerKey]?.cancel()
         }
-        timerMap.clear()
+    }
+
+    @JvmStatic
+    fun buildTimerKey(hours: Int, minute: Int, second: Int): String {
+        return "$hours-$minute-$second"
     }
 
     private fun addDay(date: Date?, num: Int): Date? {
