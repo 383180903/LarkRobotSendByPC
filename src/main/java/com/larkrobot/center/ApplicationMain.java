@@ -9,7 +9,7 @@ import java.awt.*;
 public class ApplicationMain {
 
     private static int windowWidth =  500;
-    private static int windowHeight =  150;
+    private static int windowHeight =  200;
 
     public static void main(String[] args){
         JFrame container = new PackUpJFrame("飞书机器人控制中心");

@@ -28,7 +28,7 @@ object WeatherFetchHelper {
                     if (response.code == 200) {
                         val jsonObject = JSONObject.fromObject(response.body?.string())
                         if (jsonObject != null) {
-                            buildSendMessage((jsonObject.opt("result") as JSONObject).opt("result") as JSONObject?)
+                            buildWeatherMessage((jsonObject.opt("result") as JSONObject).opt("result") as JSONObject?)
                         }
                     }
                 }
@@ -36,7 +36,7 @@ object WeatherFetchHelper {
         }.start()
     }
 
-    private fun buildSendMessage(jsonObject: JSONObject?) {
+    private fun buildWeatherMessage(jsonObject: JSONObject?) {
         jsonObject?.let { opt ->
             val city = opt.opt("city")
             val date = opt.opt("date")

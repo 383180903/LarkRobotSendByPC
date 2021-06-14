@@ -16,9 +16,13 @@ public class MainViewDesigner {
     private JButton 选择图片文件Button;
     private JRadioButton 是否开启菜单推送RadioButton;
     private JRadioButton 是否开启天气推送RadioButton;
+    private JRadioButton 是否开启新闻推送RadioButton;
+    private JRadioButton 是否开启NBA赛事推送RadioButton;
     private JFrame container;
     private Boolean isOpenMenuPush = false;
     private Boolean isOpenWeatherPush = false;
+    private Boolean isOpenNewsPush = false;
+    private Boolean isOpenMatchPush = false;
 
     public MainViewDesigner(JFrame container) {
 
@@ -51,6 +55,20 @@ public class MainViewDesigner {
             } else {
                 TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(20, 0, 0));
             }
+        });
+        是否开启新闻推送RadioButton.addActionListener(e -> {
+            isOpenNewsPush = 是否开启新闻推送RadioButton.isSelected();
+            System.out.println("isOpenNewsPush - " + isOpenNewsPush);
+            if (isOpenNewsPush) {
+                TimerSendHelper.startTimer(12, 30, 0, dayTime -> NewsFetchHelper.requestNews());
+            } else {
+                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(10, 0, 0));
+            }
+        });
+        是否开启NBA赛事推送RadioButton.addActionListener(e -> {
+            isOpenMatchPush = 是否开启NBA赛事推送RadioButton.isSelected();
+            System.out.println("isOpenMatchPush - " + isOpenMatchPush);
+            JOptionPane.showMessageDialog(new JPanel(), "敬请期待", "Tips", JOptionPane.WARNING_MESSAGE);
         });
     }
 }
