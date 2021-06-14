@@ -46,16 +46,15 @@ public class MainViewDesigner {
                 TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(18, 25, 0));
             }
         });
-        是否开启天气推送RadioButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                isOpenWeatherPush = 是否开启天气推送RadioButton.isSelected();
-                System.out.println("isOpenWeatherPush - " + isOpenWeatherPush);
-                if (isOpenWeatherPush) {
-                    TimerSendHelper.startTimer(10, 0, 0, dayTime -> WeatherFetchHelper.requestWeather());
-                } else {
-                    TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(10, 0, 0));
-                }
+        是否开启天气推送RadioButton.addActionListener(e -> {
+            isOpenWeatherPush = 是否开启天气推送RadioButton.isSelected();
+            System.out.println("isOpenWeatherPush - " + isOpenWeatherPush);
+            if (isOpenWeatherPush) {
+                TimerSendHelper.startTimer(10, 0, 0, dayTime -> WeatherFetchHelper.requestWeather());
+                TimerSendHelper.startTimer(20, 0, 0, dayTime -> WeatherFetchHelper.requestWeather());
+            } else {
+                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(10, 0, 0));
+                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(20, 0, 0));
             }
         });
     }
