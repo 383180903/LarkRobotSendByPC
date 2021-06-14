@@ -29,10 +29,11 @@ object MenuCropHelper {
         val menuFile = File(MenuPath)
         val dstImagePath = menuFile.parent + File.separator + "dailyMenu.png"
         ImageUtils.cropImage(XOffset + xStep * DailyWidth, YOffset + yStep * DailyHeight, DailyWidth, DailyHeight, MenuPath, dstImagePath)
-        buildMenuText(dayTime)?.let {
-            LarkRobotSendHelper.sendTextMessage(it)
+        buildMenuText(dayTime)?.let { title ->
+            LarkRobotSendHelper.uploadImage(dstImagePath) { imageKey ->
+                LarkRobotSendHelper.sendTextMessage(TextMessageBuilder.buildMenuText(title, imageKey, DailyWidth, DailyHeight))
+            }
         }
-        LarkRobotSendHelper.sendImageMessage(dstImagePath)
     }
 
     private fun buildMenuText(dayTime: Int): String? {

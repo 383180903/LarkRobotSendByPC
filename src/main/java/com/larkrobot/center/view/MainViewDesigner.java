@@ -1,9 +1,6 @@
 package com.larkrobot.center.view;
 
-import com.larkrobot.center.helper.LarkRobotSendHelper;
-import com.larkrobot.center.helper.MenuCropHelper;
-import com.larkrobot.center.helper.TimerSendHelper;
-import com.larkrobot.center.helper.WeatherFetchHelper;
+import com.larkrobot.center.helper.*;
 import com.larkrobot.center.model.DayTime;
 import com.larkrobot.center.utils.FileUtils;
 
@@ -26,7 +23,7 @@ public class MainViewDesigner {
     public MainViewDesigner(JFrame container) {
 
         this.container = container;
-        发送文本Button.addActionListener(e -> LarkRobotSendHelper.sendTextMessage(文本框.getText()));
+        发送文本Button.addActionListener(e -> LarkRobotSendHelper.sendTextMessage(TextMessageBuilder.buildNormalText(文本框.getText())));
         选择图片文件Button.addActionListener(e -> {
             File file = FileUtils.pickLocalFile(container);
             if (FileUtils.isImageFile(file)) {
@@ -50,10 +47,8 @@ public class MainViewDesigner {
             isOpenWeatherPush = 是否开启天气推送RadioButton.isSelected();
             System.out.println("isOpenWeatherPush - " + isOpenWeatherPush);
             if (isOpenWeatherPush) {
-                TimerSendHelper.startTimer(10, 0, 0, dayTime -> WeatherFetchHelper.requestWeather());
                 TimerSendHelper.startTimer(20, 0, 0, dayTime -> WeatherFetchHelper.requestWeather());
             } else {
-                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(10, 0, 0));
                 TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(20, 0, 0));
             }
         });

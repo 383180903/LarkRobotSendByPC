@@ -54,7 +54,7 @@ object WeatherFetchHelper {
                     "温度区间：$tempLow ~ $tempHigh℃\n" +
                     "风速：$windSpeed"
             println(sendText)
-            LarkRobotSendHelper.sendTextMessage(sendText)
+            LarkRobotSendHelper.sendTextMessage(TextMessageBuilder.buildNormalText(sendText))
         }
 
     }

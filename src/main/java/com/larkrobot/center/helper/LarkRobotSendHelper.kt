@@ -26,17 +26,26 @@ object LarkRobotSendHelper {
             "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal/"
 
     @JvmStatic
-    fun sendTextMessage(text: String) {
-        buildRequest(JSONObject().apply {
-            put("msg_type", "text")
-            put("content", JSONObject().apply {
-                put("text", text)
-            })
-        }.toString())
+    fun sendTextMessage(text: JSONObject) {
+        buildRequest(text.toString())
     }
 
     @JvmStatic
     fun sendImageMessage(imagePath: String) {
+        uploadImage(imagePath) { imageKey ->
+            Thread(Runnable {
+                buildRequest(JSONObject().apply {
+                    put("msg_type", "image")
+                    put("content", JSONObject().apply {
+                        put("image_key", imageKey)
+                    })
+                }.toString())
+            }).start()
+        }
+    }
+
+    @JvmStatic
+    fun uploadImage(imagePath: String, uploadCallback: (imageKey: String) -> Unit) {
         Thread(Runnable {
             val tokenResp = requestToken()
             if (tokenResp.code == 200) {
@@ -45,17 +54,12 @@ object LarkRobotSendHelper {
                 val uploadResp = uploadImage(imageBytes, token)
                 if (uploadResp.code == 200) {
                     val imageKey = parseImageKey(uploadResp.body?.string())
-                    buildRequest(JSONObject().apply {
-                        put("msg_type", "image")
-                        put("content", JSONObject().apply {
-                            put("image_key", imageKey)
-                        })
-                    }.toString())
+                    uploadCallback.invoke(imageKey)
                 } else {
-                    System.out.println("$TAG uploadResp code:${uploadResp.code}")
+                    println("$TAG uploadResp code:${uploadResp.code}")
                 }
             } else {
-                System.out.println("$TAG tokenResp code:${tokenResp.code}")
+                println("$TAG tokenResp code:${tokenResp.code}")
             }
         }).start()
     }
@@ -151,11 +155,11 @@ object LarkRobotSendHelper {
                 this.post(jsonBody.toRequestBody(null))
             }.build()).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    System.out.println("$TAG onFailure:${e.message}")
+                    println("$TAG onFailure:${e.message}")
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    System.out.println("$TAG onResponse code:${response.code}")
+                    println("$TAG onResponse code:${response.code}")
                 }
             })
         }).start()
