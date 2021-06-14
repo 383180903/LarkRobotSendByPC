@@ -52,7 +52,7 @@ public class MainViewDesigner {
                 isOpenWeatherPush = 是否开启天气推送RadioButton.isSelected();
                 System.out.println("isOpenWeatherPush - " + isOpenWeatherPush);
                 if (isOpenWeatherPush) {
-                    TimerSendHelper.startTimer(10, 0, 0, dayTime -> WeatherFetchHelper.requestWeather());
+                    TimerSendHelper.startTimer(11, 0, 0, dayTime -> WeatherFetchHelper.requestWeather());
                 } else {
                     TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(10, 0, 0));
                 }
