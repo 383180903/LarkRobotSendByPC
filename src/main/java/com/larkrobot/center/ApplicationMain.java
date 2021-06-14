@@ -1,6 +1,7 @@
 package com.larkrobot.center;
 
 import com.larkrobot.center.view.MainViewDesigner;
+import com.larkrobot.center.view.PackUpJFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ public class ApplicationMain {
     private static int windowHeight =  150;
 
     public static void main(String[] args){
-        JFrame container = new JFrame("飞书机器人控制中心");
+        JFrame container = new PackUpJFrame("飞书机器人控制中心");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         container.setLocation((screenSize.width - windowWidth) / 2, (screenSize.height - windowHeight) / 2);
         container.setSize(windowWidth,windowHeight);

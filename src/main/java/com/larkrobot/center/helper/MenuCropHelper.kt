@@ -9,7 +9,7 @@ import java.io.File
 
 object MenuCropHelper {
 
-    private const val MenuPath = "D:/menu/lizhi_menu.png"
+    private const val MenuPath = "D:/LarkRobot/menu/lizhi_menu.png"
 
     private const val XOffset = 64
     private const val YOffset = 64
