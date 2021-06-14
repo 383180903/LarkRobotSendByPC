@@ -36,6 +36,7 @@ object TimerSendHelper {
     fun endTimer(timerKey: String) {
         if (timerMap.containsKey(timerKey)) {
             timerMap[timerKey]?.cancel()
+            timerMap.remove(timerKey)
         }
     }
 
