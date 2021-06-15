@@ -3,6 +3,8 @@ package com.larkrobot.center.helper
 import com.larkrobot.center.model.DayTime
 import com.larkrobot.center.model.WeekDay
 import com.larkrobot.center.utils.ImageUtils
+import com.larkrobot.center.utils.OCRUtils
+import com.larkrobot.center.utils.OCRUtils.doOCRFromFile
 import com.larkrobot.center.utils.TimeUtils
 import java.io.File
 
@@ -14,24 +16,36 @@ object MenuCropHelper {
     private const val XOffset = 64
     private const val YOffset = 64
 
+    private const val YOffsetByOCR = 93
+
     //每天截取的菜单宽度
     private const val DailyWidth = 205
     private const val DailyHeight = 105
 
+
     @JvmStatic
     fun cropMenuAndSend(dayTime: Int) {
-        val xStep: Int = calculateWeekDay()
-        if (xStep == -1) {
-            println("周末没得吃啊")
-            return
-        }
         val yStep: Int = calculateDayTime(dayTime)
         val menuFile = File(MenuPath)
-        val dstImagePath = menuFile.parent + File.separator + "dailyMenu.png"
-        ImageUtils.cropImage(XOffset + xStep * DailyWidth, YOffset + yStep * DailyHeight, DailyWidth, DailyHeight, MenuPath, dstImagePath)
-        buildMenuText(dayTime)?.let { title ->
-            LarkRobotSendHelper.uploadImage(dstImagePath) { imageKey ->
-                LarkRobotSendHelper.sendTextMessage(TextMessageBuilder.buildMenuText(title, imageKey, DailyWidth, DailyHeight))
+        val dstOCRPath = menuFile.parent + File.separator + "dateOcr.png"
+        for (xStep in 0 until 5) {
+            ImageUtils.cropImage(XOffset + xStep * DailyWidth + DailyWidth / 3, YOffsetByOCR, DailyWidth / 3, DailyHeight / 4, MenuPath, dstOCRPath)
+            try {
+                val text: String = doOCRFromFile(File(dstOCRPath), OCRUtils.DEFAULT_LANG) ?: ""
+                println("识别到的文本是：$text")
+                if (!calculateWeekDay(text)) {
+                    continue
+                }
+                val dstImagePath = menuFile.parent + File.separator + "dailyMenu.png"
+                ImageUtils.cropImage(XOffset + xStep * DailyWidth, YOffset + yStep * DailyHeight, DailyWidth, DailyHeight, MenuPath, dstImagePath)
+                buildMenuText(dayTime)?.let { title ->
+                    LarkRobotSendHelper.uploadImage(dstImagePath) { imageKey ->
+                        LarkRobotSendHelper.sendTextMessage(TextMessageBuilder.buildMenuText(title, imageKey, DailyWidth, DailyHeight))
+                    }
+                }
+                break
+            } catch (ex: Exception) {
+                ex.printStackTrace()
             }
         }
     }
@@ -70,25 +84,25 @@ object MenuCropHelper {
         }
     }
 
-    private fun calculateWeekDay(): Int {
+    private fun calculateWeekDay(matchText: String): Boolean {
         return when (TimeUtils.getTodayOfWeek()) {
             WeekDay.Monday.value -> {
-                0
+                matchText.contains("一")
             }
             WeekDay.Tuesday.value -> {
-                1
+                matchText.contains("二")
             }
             WeekDay.Wednesday.value -> {
-                2
+                matchText.contains("三")
             }
             WeekDay.Thursday.value -> {
-                3
+                matchText.contains("四")
             }
             WeekDay.Friday.value -> {
-                4
+                matchText.contains("五")
             }
             else -> {
-                -1
+                false
             }
         }
     }

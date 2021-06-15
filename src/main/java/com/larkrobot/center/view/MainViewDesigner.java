@@ -3,6 +3,7 @@ package com.larkrobot.center.view;
 import com.larkrobot.center.helper.*;
 import com.larkrobot.center.model.DayTime;
 import com.larkrobot.center.utils.FileUtils;
+import com.larkrobot.center.utils.OCRUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
