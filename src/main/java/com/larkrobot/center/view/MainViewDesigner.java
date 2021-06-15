@@ -60,7 +60,7 @@ public class MainViewDesigner {
             isOpenNewsPush = 是否开启新闻推送RadioButton.isSelected();
             System.out.println("isOpenNewsPush - " + isOpenNewsPush);
             if (isOpenNewsPush) {
-                TimerSendHelper.startTimer(12, 30, 0, dayTime -> NewsFetchHelper.requestNews());
+                TimerSendHelper.startTimer(10, 0, 0, dayTime -> NewsFetchHelper.requestNews());
             } else {
                 TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(10, 0, 0));
             }
