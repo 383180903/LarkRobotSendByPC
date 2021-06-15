@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent
 import java.io.File
 import java.io.IOException
 import javax.imageio.ImageIO
+import javax.swing.ImageIcon
 import javax.swing.JFrame
 import kotlin.system.exitProcess
 
@@ -23,7 +24,7 @@ class PackUpJFrame(name: String) : JFrame(name) {
         SystemTray.isSupported()
         systemTray = SystemTray.getSystemTray()
         try {
-            trayIcon = TrayIcon(ImageIO.read(File("src/main/resources/images/main_icon.png")), "控制菜单", PopupMenu().apply {
+            trayIcon = TrayIcon(ImageIO.read(File("D:/LarkRobot/icon/main_icon.png")), "控制菜单", PopupMenu().apply {
                 add(MenuItem("打开程序").apply {
                     addActionListener {
                         showMainWindow()
