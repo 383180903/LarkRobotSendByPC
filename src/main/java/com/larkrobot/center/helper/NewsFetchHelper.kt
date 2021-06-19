@@ -6,7 +6,7 @@ import okhttp3.*
 import java.io.IOException
 
 object NewsFetchHelper {
-    private const val NewsUrl = "https://way.jd.com/jisuapi/get?channel=头条&num=5&start=0&appkey=5d315785afc0b3b42e2d585a3eaf3231"
+    private const val NewsUrl = "https://way.jd.com/jisuapi/get?channel=头条&num=8&start=0&appkey=5d315785afc0b3b42e2d585a3eaf3231"
 
     @JvmStatic
     fun requestNews() {
