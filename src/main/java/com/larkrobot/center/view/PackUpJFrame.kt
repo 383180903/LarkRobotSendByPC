@@ -1,5 +1,6 @@
 package com.larkrobot.center.view
 
+import com.larkrobot.center.utils.ImageSource
 import java.awt.*
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
@@ -7,6 +8,7 @@ import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import java.io.File
 import java.io.IOException
+import java.net.URL
 import javax.imageio.ImageIO
 import javax.swing.ImageIcon
 import javax.swing.JFrame
@@ -24,7 +26,7 @@ class PackUpJFrame(name: String) : JFrame(name) {
         SystemTray.isSupported()
         systemTray = SystemTray.getSystemTray()
         try {
-            trayIcon = TrayIcon(ImageIO.read(File("D:/LarkRobot/icon/main_icon.png")), "控制菜单", PopupMenu().apply {
+            trayIcon = TrayIcon(ImageSource.APP_ICON, "控制菜单", PopupMenu().apply {
                 add(MenuItem("打开程序").apply {
                     addActionListener {
                         showMainWindow()
