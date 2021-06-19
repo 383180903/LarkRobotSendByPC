@@ -1,6 +1,7 @@
 package com.larkrobot.center.helper
 
 import com.larkrobot.center.IDoTask
+import com.larkrobot.center.model.TimeBean
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -10,11 +11,11 @@ object TimerSendHelper {
     private var timerMap: HashMap<String, Timer> = HashMap()
 
     @JvmStatic
-    fun startTimer(hours: Int, minute: Int, second: Int, task: IDoTask) {
+    fun startTimer(time: TimeBean, task: IDoTask) {
         val calendar = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, hours)
-            set(Calendar.MINUTE, minute)
-            set(Calendar.SECOND, second)
+            set(Calendar.HOUR_OF_DAY, time.hours)
+            set(Calendar.MINUTE, time.mins)
+            set(Calendar.SECOND, time.second)
         }
 
         var date = calendar.time
@@ -23,7 +24,7 @@ object TimerSendHelper {
         if (date.before(Date())) {
             date = this.addDay(date, 1);
         }
-        val key = buildTimerKey(hours, minute, second)
+        val key = buildTimerKey(time)
         timerMap[key] = Timer()
         timerMap[key]?.schedule(object : TimerTask() {
             override fun run() {
@@ -41,8 +42,10 @@ object TimerSendHelper {
     }
 
     @JvmStatic
-    fun buildTimerKey(hours: Int, minute: Int, second: Int): String {
-        return "$hours-$minute-$second"
+    fun buildTimerKey(time: TimeBean): String {
+        return with(time) {
+            "$hours-$mins-$second"
+        }
     }
 
     private fun addDay(date: Date?, num: Int): Date? {

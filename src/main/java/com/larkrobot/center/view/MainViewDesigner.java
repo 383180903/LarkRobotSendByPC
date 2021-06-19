@@ -2,12 +2,10 @@ package com.larkrobot.center.view;
 
 import com.larkrobot.center.helper.*;
 import com.larkrobot.center.model.DayTime;
+import com.larkrobot.center.model.TimeBean;
 import com.larkrobot.center.utils.FileUtils;
-import com.larkrobot.center.utils.OCRUtils;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 
 public class MainViewDesigner {
@@ -18,12 +16,22 @@ public class MainViewDesigner {
     private JRadioButton 是否开启菜单推送RadioButton;
     private JRadioButton 是否开启天气推送RadioButton;
     private JRadioButton 是否开启新闻推送RadioButton;
-    private JRadioButton 是否开启NBA赛事推送RadioButton;
+    private JRadioButton 是否开启股市信息推送RadioButton;
     private JFrame container;
     private Boolean isOpenMenuPush = false;
     private Boolean isOpenWeatherPush = false;
     private Boolean isOpenNewsPush = false;
-    private Boolean isOpenMatchPush = false;
+    private Boolean isOpenSharesPush = false;
+
+    private final TimeBean morningMenuTime = new TimeBean(8, 30, 0);
+    private final TimeBean noonMenuTime = new TimeBean(11, 55, 0);
+    private final TimeBean dinnerMenuTime = new TimeBean(18, 25, 0);
+
+    private final TimeBean weatherTime = new TimeBean(20, 0, 0);
+    private final TimeBean newsTime = new TimeBean(10, 0, 0);
+
+    private final TimeBean morningSharesTime = new TimeBean(9, 31, 0);
+    private final TimeBean noonSharesTime = new TimeBean(15, 1, 0);
 
     public MainViewDesigner(JFrame container) {
 
@@ -39,37 +47,43 @@ public class MainViewDesigner {
             isOpenMenuPush = 是否开启菜单推送RadioButton.isSelected();
             System.out.println("isOpenMenuPush - " + isOpenMenuPush);
             if (isOpenMenuPush) {
-                TimerSendHelper.startTimer(8, 30, 0, dayTime -> MenuCropHelper.cropMenuAndSend(DayTime.Morning.getValue()));
-                TimerSendHelper.startTimer(11, 55, 0, dayTime -> MenuCropHelper.cropMenuAndSend(DayTime.Noon.getValue()));
-                TimerSendHelper.startTimer(18, 25, 0, dayTime -> MenuCropHelper.cropMenuAndSend(DayTime.Dinner.getValue()));
+                TimerSendHelper.startTimer(morningMenuTime, dayTime -> MenuCropHelper.cropMenuAndSend(DayTime.Morning.getValue()));
+                TimerSendHelper.startTimer(noonMenuTime, dayTime -> MenuCropHelper.cropMenuAndSend(DayTime.Noon.getValue()));
+                TimerSendHelper.startTimer(dinnerMenuTime, dayTime -> MenuCropHelper.cropMenuAndSend(DayTime.Dinner.getValue()));
             } else {
-                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(8, 30, 0));
-                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(11, 55, 0));
-                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(18, 25, 0));
+                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(morningMenuTime));
+                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(noonMenuTime));
+                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(dinnerMenuTime));
             }
         });
         是否开启天气推送RadioButton.addActionListener(e -> {
             isOpenWeatherPush = 是否开启天气推送RadioButton.isSelected();
             System.out.println("isOpenWeatherPush - " + isOpenWeatherPush);
             if (isOpenWeatherPush) {
-                TimerSendHelper.startTimer(20, 0, 0, dayTime -> WeatherFetchHelper.requestWeather());
+                TimerSendHelper.startTimer(weatherTime, dayTime -> WeatherFetchHelper.requestWeather());
             } else {
-                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(20, 0, 0));
+                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(weatherTime));
             }
         });
         是否开启新闻推送RadioButton.addActionListener(e -> {
             isOpenNewsPush = 是否开启新闻推送RadioButton.isSelected();
             System.out.println("isOpenNewsPush - " + isOpenNewsPush);
             if (isOpenNewsPush) {
-                TimerSendHelper.startTimer(10, 0, 0, dayTime -> NewsFetchHelper.requestNews());
+                TimerSendHelper.startTimer(newsTime, dayTime -> NewsFetchHelper.requestNews());
             } else {
-                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(10, 0, 0));
+                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(newsTime));
             }
         });
-        是否开启NBA赛事推送RadioButton.addActionListener(e -> {
-            isOpenMatchPush = 是否开启NBA赛事推送RadioButton.isSelected();
-            System.out.println("isOpenMatchPush - " + isOpenMatchPush);
-            JOptionPane.showMessageDialog(new JPanel(), "敬请期待", "Tips", JOptionPane.WARNING_MESSAGE);
+        是否开启股市信息推送RadioButton.addActionListener(e -> {
+            isOpenSharesPush = 是否开启股市信息推送RadioButton.isSelected();
+            System.out.println("isOpenSharesPush - " + isOpenSharesPush);
+            if (isOpenSharesPush) {
+                TimerSendHelper.startTimer(morningSharesTime, dayTime -> SharesFetchHelper.requestShares());
+                TimerSendHelper.startTimer(noonSharesTime, dayTime -> SharesFetchHelper.requestShares());
+            } else {
+                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(morningSharesTime));
+                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(noonSharesTime));
+            }
         });
     }
 }

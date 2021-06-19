@@ -72,4 +72,43 @@ object TextMessageBuilder {
         }
 
     }
+
+    @JvmStatic
+    fun buildSharesText(title: String, sharesName: ArrayList<String>, shareContents: ArrayList<String>, sharesTimesWebUrls: ArrayList<String> ,sharesKWebUrls: ArrayList<String>): JSONObject {
+        return JSONObject().apply {
+            put("msg_type", "post")
+            put("content", JSONObject().apply {
+                put("post", JSONObject().apply {
+                    put("zh_cn", JSONObject().apply {
+                        put("title", title)
+                        put("content", JSONArray().apply {
+                            for (index in sharesName.indices) {
+                                add(JSONArray().apply {
+                                    add(JSONObject().apply {
+                                        put("tag", "text")
+                                        put("text", sharesName[index] + "  \n")
+                                    })
+                                    add(JSONObject().apply {
+                                        put("tag", "text")
+                                        put("text", shareContents[index] + "\n")
+                                    })
+                                    add(JSONObject().apply {
+                                        put("tag", "a")
+                                        put("text", "#查看分时图 - ")
+                                        put("href", sharesTimesWebUrls[index])
+                                    })
+                                    add(JSONObject().apply {
+                                        put("tag", "a")
+                                        put("text", "#查看K线图\n")
+                                        put("href", sharesKWebUrls[index])
+                                    })
+                                })
+                            }
+                        })
+                    })
+                })
+            })
+        }
+
+    }
 }
