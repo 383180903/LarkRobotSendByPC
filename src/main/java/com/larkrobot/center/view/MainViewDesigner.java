@@ -24,7 +24,7 @@ public class MainViewDesigner {
     private Boolean isOpenSharesPush = false;
 
     private final TimeBean morningMenuTime = new TimeBean(8, 30, 0);
-    private final TimeBean noonMenuTime = new TimeBean(11, 55, 0);
+    private final TimeBean noonMenuTime = new TimeBean(11, 50, 0);
     private final TimeBean dinnerMenuTime = new TimeBean(18, 25, 0);
 
     private final TimeBean weatherTime = new TimeBean(20, 0, 0);

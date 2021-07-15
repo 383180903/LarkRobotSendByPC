@@ -13,14 +13,17 @@ object MenuCropHelper {
 
     private const val MenuPath = "D:/LarkRobot/menu/lizhi_menu.png"
 
-    private const val XOffset = 64
-    private const val YOffset = 64
+    private const val XOffset = 90
+    private const val YOffset = 114
 
     private const val YOffsetByOCR = 93
+    private const val OCRHeight = 20
 
     //每天截取的菜单宽度
-    private const val DailyWidth = 205
-    private const val DailyHeight = 105
+    private const val DailyWidth = 120
+    private const val DailyMorningHeight = 156
+    private const val DailyNoonHeight = 128
+    private const val DailyDinnerHeight = 108
 
 
     @JvmStatic
@@ -29,7 +32,7 @@ object MenuCropHelper {
         val menuFile = File(MenuPath)
         val dstOCRPath = menuFile.parent + File.separator + "dateOcr.png"
         for (xStep in 0 until 5) {
-            ImageUtils.cropImage(XOffset + xStep * DailyWidth + DailyWidth / 3, YOffsetByOCR, DailyWidth / 3, DailyHeight / 4, MenuPath, dstOCRPath)
+            ImageUtils.cropImage(XOffset + xStep * DailyWidth + DailyWidth / 4, YOffsetByOCR, DailyWidth / 2, OCRHeight , MenuPath, dstOCRPath)
             try {
                 val text: String = doOCRFromFile(File(dstOCRPath), OCRUtils.DEFAULT_LANG) ?: ""
                 println("识别到的文本是：$text")
@@ -37,10 +40,38 @@ object MenuCropHelper {
                     continue
                 }
                 val dstImagePath = menuFile.parent + File.separator + "dailyMenu.png"
-                ImageUtils.cropImage(XOffset + xStep * DailyWidth, YOffset + yStep * DailyHeight, DailyWidth, DailyHeight, MenuPath, dstImagePath)
+                val y = when(yStep){
+                    0 -> {
+                        0
+                    }
+                    1 -> {
+                        DailyMorningHeight
+                    }
+                    2 -> {
+                        DailyMorningHeight + DailyNoonHeight
+                    }
+                    else ->{
+                        0
+                    }
+                }
+                val height = when(yStep){
+                    0 -> {
+                        DailyMorningHeight
+                    }
+                    1 -> {
+                        DailyNoonHeight
+                    }
+                    2 -> {
+                        DailyDinnerHeight
+                    }
+                    else ->{
+                        0
+                    }
+                }
+                ImageUtils.cropImage(XOffset + xStep * DailyWidth, YOffset + y, DailyWidth, height, MenuPath, dstImagePath)
                 buildMenuText(dayTime)?.let { title ->
                     LarkRobotSendHelper.uploadImage(dstImagePath) { imageKey ->
-                        LarkRobotSendHelper.sendTextMessage(TextMessageBuilder.buildMenuText(title, imageKey, DailyWidth, DailyHeight))
+                        LarkRobotSendHelper.sendTextMessage(TextMessageBuilder.buildMenuText(title, imageKey, DailyWidth, height))
                     }
                 }
                 break
@@ -87,19 +118,19 @@ object MenuCropHelper {
     private fun calculateWeekDay(matchText: String): Boolean {
         return when (TimeUtils.getTodayOfWeek()) {
             WeekDay.Monday.value -> {
-                matchText.contains("一")
+                matchText.replace("\n","").endsWith("一")
             }
             WeekDay.Tuesday.value -> {
-                matchText.contains("二")
+                matchText.replace("\n","").endsWith("二")
             }
             WeekDay.Wednesday.value -> {
-                matchText.contains("三")
+                matchText.replace("\n","").endsWith("三")
             }
             WeekDay.Thursday.value -> {
-                matchText.contains("四")
+                matchText.replace("\n","").endsWith("四")
             }
             WeekDay.Friday.value -> {
-                matchText.contains("五")
+                matchText.replace("\n","").endsWith("五")
             }
             else -> {
                 false
