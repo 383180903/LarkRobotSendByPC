@@ -22,7 +22,7 @@ object TimerSendHelper {
         //如果第一次执行定时任务的时间 小于 当前的时间
         //此时要在 第一次执行定时任务的时间 加一天，以便此任务在下个时间点执行。如果不加一天，任务会立即执行。
         if (date.before(Date())) {
-            date = this.addDay(date, 1);
+            date = this.addDay(date, 1)
         }
         val key = buildTimerKey(time)
         timerMap[key] = Timer()
