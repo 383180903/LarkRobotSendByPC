@@ -13,17 +13,17 @@ object MenuCropHelper {
 
     private const val MenuPath = "D:/LarkRobot/menu/lizhi_menu.png"
 
-    private const val XOffset = 81
-    private const val YOffset = 115
+    private const val XOffset = 156
+    private const val YOffset = 138
 
-    private const val YOffsetByOCR = 95
-    private const val OCRHeight = 20
+    private const val YOffsetByOCR = 115
+    private const val OCRHeight = 23
 
     //每天截取的菜单宽度
-    private const val DailyWidth = 117
-    private const val DailyMorningHeight = 156
-    private const val DailyNoonHeight = 128
-    private const val DailyDinnerHeight = 108
+    private const val DailyWidth = 210
+    private const val DailyMorningHeight = 228
+    private const val DailyNoonHeight = 189
+    private const val DailyDinnerHeight = 152
 
 
     @JvmStatic
