@@ -24,8 +24,10 @@ public class MainViewDesigner {
     private Boolean isOpenSharesPush = false;
 
     private final TimeBean morningMenuTime = new TimeBean(8, 30, 0);
-    private final TimeBean noonMenuTime = new TimeBean(11, 50, 0);
-    private final TimeBean dinnerMenuTime = new TimeBean(18, 25, 0);
+    private final TimeBean noonMenuTime = new TimeBean(11, 0, 0);
+    private final TimeBean noonSetOffTime = new TimeBean(11, 53, 0);
+    private final TimeBean dinnerMenuTime = new TimeBean(18, 0, 0);
+    private final TimeBean dinnerSetOffTime = new TimeBean(18, 23, 0);
 
     private final TimeBean weatherTime = new TimeBean(20, 0, 0);
     private final TimeBean newsTime = new TimeBean(10, 0, 0);
@@ -50,10 +52,14 @@ public class MainViewDesigner {
                 TimerSendHelper.startTimer(morningMenuTime, dayTime -> MenuCropHelper.cropMenuAndSend(DayTime.Morning.getValue()));
                 TimerSendHelper.startTimer(noonMenuTime, dayTime -> MenuCropHelper.cropMenuAndSend(DayTime.Noon.getValue()));
                 TimerSendHelper.startTimer(dinnerMenuTime, dayTime -> MenuCropHelper.cropMenuAndSend(DayTime.Dinner.getValue()));
+                TimerSendHelper.startTimer(noonSetOffTime, dayTime -> LarkRobotSendHelper.sendTextMessage(TextMessageBuilder.buildNormalText("尚能饭否，go go go")));
+                TimerSendHelper.startTimer(dinnerSetOffTime, dayTime -> LarkRobotSendHelper.sendTextMessage(TextMessageBuilder.buildNormalText("尚能饭否，go go go")));
             } else {
                 TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(morningMenuTime));
                 TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(noonMenuTime));
                 TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(dinnerMenuTime));
+                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(noonSetOffTime));
+                TimerSendHelper.endTimer(TimerSendHelper.buildTimerKey(dinnerSetOffTime));
             }
         });
         是否开启天气推送RadioButton.addActionListener(e -> {
