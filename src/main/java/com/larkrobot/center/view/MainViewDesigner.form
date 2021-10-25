@@ -21,7 +21,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="e9cdc" class="javax.swing.JButton" binding="发送文本Button">
+              <component id="e9cdc" class="javax.swing.JButton" binding="sendTextButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -39,7 +39,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="32f5f" class="javax.swing.JTextField" binding="文本框">
+              <component id="32f5f" class="javax.swing.JTextField" binding="textArea">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -57,7 +57,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="c8333" class="javax.swing.JButton" binding="选择图片文件Button">
+              <component id="c8333" class="javax.swing.JButton" binding="sendPictureButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -75,7 +75,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="5e699" class="javax.swing.JRadioButton" binding="是否开启菜单推送RadioButton" default-binding="true">
+              <component id="5e699" class="javax.swing.JRadioButton" binding="openMenuPushRadioButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -93,7 +93,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="e368f" class="javax.swing.JRadioButton" binding="是否开启天气推送RadioButton" default-binding="true">
+              <component id="e368f" class="javax.swing.JRadioButton" binding="openWeatherPushRadioButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -111,7 +111,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="70e24" class="javax.swing.JRadioButton" binding="是否开启新闻推送RadioButton" default-binding="true">
+              <component id="70e24" class="javax.swing.JRadioButton" binding="openNewsPushRadioButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -129,7 +129,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="3e26d" class="javax.swing.JRadioButton" binding="是否开启股市信息推送RadioButton">
+              <component id="3e26d" class="javax.swing.JRadioButton" binding="openGushiPushRadioButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>

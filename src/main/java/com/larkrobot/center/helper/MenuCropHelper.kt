@@ -13,17 +13,17 @@ object MenuCropHelper {
 
     private const val MenuPath = "D:/LarkRobot/menu/lizhi_menu.png"
 
-    private const val XOffset = 109
-    private const val YOffset = 173
+    private const val XOffset = 121
+    private const val YOffset = 212
 
-    private const val YOffsetByOCR = 137
-    private const val OCRHeight = 35
+    private const val YOffsetByOCR = 155
+    private const val OCRHeight = 52
 
     //每天截取的菜单宽度
-    private const val DailyWidth = 177
-    private const val DailyMorningHeight = 240
-    private const val DailyNoonHeight = 200
-    private const val DailyDinnerHeight = 160
+    private const val DailyWidth = 235
+    private const val DailyMorningHeight = 320
+    private const val DailyNoonHeight = 280
+    private const val DailyDinnerHeight = 220
 
 
     @JvmStatic
@@ -87,10 +87,10 @@ object MenuCropHelper {
                 "米娜桑，清晨的第一缕阳光就是龙司的早餐啦~"
             }
             DayTime.Noon.value -> {
-                "米娜桑，快12点了，别写代码了，开饭啦~"
+                "米娜桑，今日午餐菜单来啦~"
             }
             DayTime.Dinner.value -> {
-                "米娜桑，6点几啦，食饭先啦~"
+                "米娜桑，今日晚餐菜单来啦~"
             }
             else -> {
                 null
